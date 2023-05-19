@@ -10,8 +10,7 @@ markers = [
 
 def size(factory_number: str) -> int:
     """returns the maximum number of characters in the check header"""
-    model_rro = factory_number[2:4] if (
-                factory_number[:2] == '40' or factory_number[:2] == '80') else model_rro = factory_number[4:6]
+    model_rro = factory_number[2:4] if (factory_number[:2] == '40' or factory_number[:2] == '80') else factory_number[4:6]
     if model_rro == "23":
         return 36
     elif model_rro in ["24", "20"]:
@@ -29,3 +28,15 @@ def check_markers(check):
         if check.upper().find(i.upper()) >= 0:
             return True
     return False
+
+
+def str_2_list(line_from_file: str) -> list:
+    """convert and split line from file"""
+    replaced_line = line_from_file.replace('"""', '"').replace('""', '"').replace('«', '"').replace('»', '"') \
+        .replace('’', '\'').replace('\n', '').replace(',', ',roz').replace(';;', 'roz').replace(';;', 'roz') \
+        .replace(';"', 'roz').replace(' ";', 'roz').replace(';', 'roz')
+    return replaced_line.split('roz')
+
+
+if __name__ == "__main__":
+    print(size("402305678"))
