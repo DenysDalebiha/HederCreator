@@ -1,33 +1,30 @@
 markers = [
-           "РЕЦЕПЦІЯ","Кафе","ПТ","KFC","ТРЦ","ІД","ФОП","ТОВ","ПУНКТ","ПНФП",
-           "офіс","склад","Швейна","автомийка","Глобус","Аркадія","Паркування",
-           "Юридична адреса","Крамниця","ЄДРПОУ","ЕДРПОУ","Магазин","Маг-н",
-           "відділення","виїзна","салон","комплекс","центр","КЛІНІКА", "Каса",
-           "ЄДРПОУ","Супермаркет","гіпермаркет","Склад-термінал","Автосалон",
-           "Черрі", "Закусочна","сервісний","Укрпошта","Ресторан"
-          ]
+    "РЕЦЕПЦІЯ", "Кафе", "ПТ", "KFC", "ТРЦ", "ІД", "ФОП", "ТОВ", "ПУНКТ", "ПНФП",
+    "офіс", "склад", "Швейна", "автомийка", "Глобус", "Аркадія", "Паркування",
+    "Юридична адреса", "Крамниця", "ЄДРПОУ", "ЕДРПОУ", "Магазин", "Маг-н",
+    "відділення", "виїзна", "салон", "комплекс", "центр", "КЛІНІКА", "Каса",
+    "ЄДРПОУ", "Супермаркет", "гіпермаркет", "Склад-термінал", "Автосалон",
+    "Черрі", "Закусочна", "сервісний", "Укрпошта", "Ресторан"
+]
 
 
-def size(str):
-#"""returns the maximum number of characters in the check header"""
-    if str[:2] == '40' or str[:2] == '80':
-        str = str[2:4]
-    else:
-        str = str[4:6]
-    if str == "23":
+def size(factory_number: str) -> int:
+    """returns the maximum number of characters in the check header"""
+    model_rro = factory_number[2:4] if (
+                factory_number[:2] == '40' or factory_number[:2] == '80') else model_rro = factory_number[4:6]
+    if model_rro == "23":
         return 36
-    elif str == "24" or str == "20" :
+    elif model_rro in ["24", "20"]:
         return 40
-    elif str == "22" or str == "10" or str == "21":
+    elif model_rro in ["22", "10", "21"]:
         return 42
-    elif str == str == "01" or str == "06" or str == "11" or str == "12" or \
-         str == "13" or str == "16" or str == "17":
-         return 32
-    else: 
+    elif model_rro in ["01", "06", "11", "12", "13", "16", "17"]:
+        return 32
+    else:
         return 40
 
 
-def checkMarkers(check):
+def check_markers(check):
     for i in markers:
         if check.upper().find(i.upper()) >= 0:
             return True
