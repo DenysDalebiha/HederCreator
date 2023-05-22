@@ -1,17 +1,14 @@
 # coding: windows-1251
-markers = [
-    "РЕЦЕПЦІЯ", "Кафе", "ПТ", "KFC", "ТРЦ", "ІД", "ФОП", "ТОВ", "ПУНКТ", "ПНФП",
-    "офіс", "склад", "Швейна", "автомийка", "Глобус", "Аркадія", "Паркування",
-    "Юридична адреса", "Крамниця", "ЄДРПОУ", "ЕДРПОУ", "Магазин", "Маг-н",
-    "відділення", "виїзна", "салон", "комплекс", "центр", "КЛІНІКА", "Каса",
-    "ЄДРПОУ", "Супермаркет", "гіпермаркет", "Склад-термінал", "Автосалон",
-    "Черрі", "Закусочна", "сервісний", "Укрпошта", "Ресторан"
-]
+markers = {'РЕЦЕПЦІЯ', 'КAФЕ', 'ПТ', 'KFC', 'ТРЦ', 'ІД', 'ФОП', 'ТОВ', 'ПУНКТ', 'ПНФП', 'ОФІС', 'СКЛАД', 'ШВЕЙНА',
+           'АВТОМИЙКА', 'ГЛОБУС', 'АРКАДІЯ', 'ПАРКУВАННЯ', 'ЮРИДИЧНА АДРЕСА', 'КРАМНИЦЯ', 'ЄДРПОУ', 'ЕДРПОУ', 'МАГАЗИН',
+           'МАГ-Н', 'ВІДДІЛЕННЯ', 'ВИЇЗНА', 'САЛОН', 'КОМПЛЕКС', 'ЦЕНТР', 'КЛІНІКА', 'КАСА', 'ЄДРПОУ', 'СУПЕРМАРКЕТ',
+           'ГІПЕРМАРКЕТ', 'СКЛАД-ТЕРМІНАЛ', 'АВТОСАЛОН', 'ЧЕРРІ', 'ЗАКУСОЧНА', 'СЕРВІСНИЙ', 'УКРПОШТА', 'РЕСТОРАН'}
 
 
 def size(factory_number: str) -> int:
     """returns the maximum number of characters in the check header"""
-    model_rro = factory_number[2:4] if (factory_number[:2] == '40' or factory_number[:2] == '80') else factory_number[4:6]
+    model_rro = factory_number[2:4] if (factory_number[:2] == '40' or factory_number[:2] == '80') else factory_number[
+                                                                                                       4:6]
     if model_rro == "23":
         return 36
     elif model_rro in ["24", "20"]:
@@ -24,11 +21,8 @@ def size(factory_number: str) -> int:
         return 40
 
 
-def check_markers(check):
-    for i in markers:
-        if check.upper().find(i.upper()) >= 0:
-            return True
-    return False
+def check_markers(check: str) -> bool:
+    return markers.intersection(set(check.upper().split()))
 
 
 def str_2_list(line_from_file: str) -> list:
@@ -40,4 +34,4 @@ def str_2_list(line_from_file: str) -> list:
 
 
 if __name__ == "__main__":
-    print(size("402305678"))
+    print(check_markers('пункт видачі'))
