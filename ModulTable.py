@@ -1,20 +1,16 @@
-markers = [
-    "Ğ Ğ•Ğ¦Ğ•ĞŸĞ¦Ğ†Ğ¯", "ĞšĞ°Ñ„Ğµ", "ĞŸĞ¢", "KFC", "Ğ¢Ğ Ğ¦", "Ğ†Ğ”", "Ğ¤ĞĞŸ", "Ğ¢ĞĞ’", "ĞŸĞ£ĞĞšĞ¢", "ĞŸĞĞ¤ĞŸ",
-    "Ğ¾Ñ„Ñ–Ñ", "ÑĞºĞ»Ğ°Ğ´", "Ğ¨Ğ²ĞµĞ¹Ğ½Ğ°", "Ğ°Ğ²Ñ‚Ğ¾Ğ¼Ğ¸Ğ¹ĞºĞ°", "Ğ“Ğ»Ğ¾Ğ±ÑƒÑ", "ĞÑ€ĞºĞ°Ğ´Ñ–Ñ", "ĞŸĞ°Ñ€ĞºÑƒĞ²Ğ°Ğ½Ğ½Ñ",
-    "Ğ®Ñ€Ğ¸Ğ´Ğ¸Ñ‡Ğ½Ğ° Ğ°Ğ´Ñ€ĞµÑĞ°", "ĞšÑ€Ğ°Ğ¼Ğ½Ğ¸Ñ†Ñ", "Ğ„Ğ”Ğ ĞŸĞĞ£", "Ğ•Ğ”Ğ ĞŸĞĞ£", "ĞœĞ°Ğ³Ğ°Ğ·Ğ¸Ğ½", "ĞœĞ°Ğ³-Ğ½",
-    "Ğ²Ñ–Ğ´Ğ´Ñ–Ğ»ĞµĞ½Ğ½Ñ", "Ğ²Ğ¸Ñ—Ğ·Ğ½Ğ°", "ÑĞ°Ğ»Ğ¾Ğ½", "ĞºĞ¾Ğ¼Ğ¿Ğ»ĞµĞºÑ", "Ñ†ĞµĞ½Ñ‚Ñ€", "ĞšĞ›Ğ†ĞĞ†ĞšĞ", "ĞšĞ°ÑĞ°",
-    "Ğ„Ğ”Ğ ĞŸĞĞ£", "Ğ¡ÑƒĞ¿ĞµÑ€Ğ¼Ğ°Ñ€ĞºĞµÑ‚", "Ğ³Ñ–Ğ¿ĞµÑ€Ğ¼Ğ°Ñ€ĞºĞµÑ‚", "Ğ¡ĞºĞ»Ğ°Ğ´-Ñ‚ĞµÑ€Ğ¼Ñ–Ğ½Ğ°Ğ»", "ĞĞ²Ñ‚Ğ¾ÑĞ°Ğ»Ğ¾Ğ½",
-    "Ğ§ĞµÑ€Ñ€Ñ–", "Ğ—Ğ°ĞºÑƒÑĞ¾Ñ‡Ğ½Ğ°", "ÑĞµÑ€Ğ²Ñ–ÑĞ½Ğ¸Ğ¹", "Ğ£ĞºÑ€Ğ¿Ğ¾ÑˆÑ‚Ğ°", "Ğ ĞµÑÑ‚Ğ¾Ñ€Ğ°Ğ½"
-]
+# coding: windows-1251
+markers = {'ĞÅÖÅÏÖ²ß', 'ÊAÔÅ', 'ÏÒ', 'KFC', 'ÒĞÖ', '²Ä', 'ÔÎÏ', 'ÒÎÂ', 'ÏÓÍÊÒ', 'ÏÍÔÏ', 'ÎÔ²Ñ', 'ÑÊËÀÄ', 'ØÂÅÉÍÀ',
+           'ÀÂÒÎÌÈÉÊÀ', 'ÃËÎÁÓÑ', 'ÀĞÊÀÄ²ß', 'ÏÀĞÊÓÂÀÍÍß', 'ŞĞÈÄÈ×ÍÀ ÀÄĞÅÑÀ', 'ÊĞÀÌÍÈÖß', 'ªÄĞÏÎÓ', 'ÅÄĞÏÎÓ', 'ÌÀÃÀÇÈÍ',
+           'ÌÀÃ-Í', 'Â²ÄÄ²ËÅÍÍß', 'ÂÈ¯ÇÍÀ', 'ÑÀËÎÍ', 'ÊÎÌÏËÅÊÑ', 'ÖÅÍÒĞ', 'ÊË²Í²ÊÀ', 'ÊÀÑÀ', 'ªÄĞÏÎÓ', 'ÑÓÏÅĞÌÀĞÊÅÒ',
+           'Ã²ÏÅĞÌÀĞÊÅÒ', 'ÑÊËÀÄ-ÒÅĞÌ²ÍÀË', 'ÀÂÒÎÑÀËÎÍ', '×ÅĞĞ²', 'ÇÀÊÓÑÎ×ÍÀ', 'ÑÅĞÂ²ÑÍÈÉ', 'ÓÊĞÏÎØÒÀ', 'ĞÅÑÒÎĞÀÍ'}
 
 
 def size(factory_number: str) -> int:
-    """returns the maximum number of characters in the check header"""
-    model_rro = factory_number[2:4] if (factory_number[:2] == '40' or factory_number[:2] == '80') else factory_number[4:6]
+    """returns the maximum number of characters in the check cap"""
+    model_rro = factory_number[2:4] if (factory_number[:2] == '40' or factory_number[:2] == '80') else factory_number[
+                                                                                                       4:6]
     if model_rro == "23":
         return 36
-    elif model_rro in ["24", "20"]:
-        return 40
     elif model_rro in ["22", "10", "21"]:
         return 42
     elif model_rro in ["01", "06", "11", "12", "13", "16", "17"]:
@@ -23,20 +19,25 @@ def size(factory_number: str) -> int:
         return 40
 
 
-def check_markers(check):
-    for i in markers:
-        if check.upper().find(i.upper()) >= 0:
-            return True
-    return False
+def check_markers(check: str) -> bool:
+    return bool(markers.intersection(set(check.upper().split())))
 
 
 def str_2_list(line_from_file: str) -> list:
     """convert and split line from file"""
-    replaced_line = line_from_file.replace('"""', '"').replace('""', '"').replace('Â«', '"').replace('Â»', '"') \
-        .replace('â€™', '\'').replace('\n', '').replace(',', ',roz').replace(';;', 'roz').replace(';;', 'roz') \
+    replaced_line = line_from_file.replace('"""', '"').replace('""', '"').replace('«', '"').replace('»', '"') \
+        .replace('’', '\'').replace('\n', '').replace(',', ',roz').replace(';;', 'roz').replace(';;', 'roz') \
         .replace(';"', 'roz').replace(' ";', 'roz').replace(';', 'roz')
     return replaced_line.split('roz')
 
 
+def cap2file(cap: list, file) -> None:
+    pass
+
+
+def line_creator():
+    pass
+
+
 if __name__ == "__main__":
-    print(size("402305678"))
+    print(check_markers('ïóíêò âèäà÷³'))
