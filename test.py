@@ -2,26 +2,21 @@
 import csv
 import ModulTable as Cap
 from random import randint
+import logging
+
+logging.basicConfig(filename='log.log', level=logging.Info)
 
 
-def row_transformer(line: list, size_limit) -> list:
-    for i, v in enumerate(line):
-        print(i, v)
-        if len(v) <= size_limit:
-            print(v)
-        else:
-            print(v.split())
+def line_spliter(line: str) -> list:
+    split_line = line.replace(',', ',^').split('^')
+    if len(split_line) == 1:
+        split_line = line.replace(' ', ' ^').split()
+        if len(split_line) == 1:
+            logging.error("unsplittable string")
+    return split_line
 
 
-# with open('data.csv', 'r') as file:
-#     all_data = csv.reader(file, delimiter=';')
-#     for row in all_data:
-#         print('1', row)
-#         ZN = row.pop(0)
-#         FN = row.pop(0)
-#         row_transformer(row, Cap.size(ZN))
-
-def line_cuter(line:list, limit = 5)->list:
+def line_cuter(line: list, limit=5) -> list:
     """check item < limit else - cut"""
     out_l = []
     while line:
@@ -33,6 +28,8 @@ def line_cuter(line:list, limit = 5)->list:
         else:
             out_l.append(line.pop(0))
     return out_l
+
+
 def groupator(line, limit = 7)-> list:
     """return one element of cap"""
     if len(line) == 1:
@@ -46,12 +43,21 @@ def groupator(line, limit = 7)-> list:
     return out
 
 
+def write_to_file(factory_number: str, fiscal_number: str, cap: list, offset=0) -> None:
+    """write one cap to file"""
+    with open('OutData.txt', 'w') as out_file:
+        out_file.write(f'%Oper($$Data,"{factory_number}",10,$$Flag)\n%If ($$Flag == 1)\n%Then\n')
+        out_file.write(f'%Set $$FN = "{fiscal_number}"')
+        for i, item in enumerate(cap):
+            out_file.write(f'22000000;{i};{item};0;')
+        out_file.write('%Else\n%EndIf\n')
+
+
 if __name__ == '__main__':
-    #in_line = [randint(1, 5) for i in range(20)]
-    in_line = [15, 1, 2, 6]
-    print(in_line)
-    print(line_cuter(in_line,4))
-    # out_line = []
-    # while len(in_line) > 0:
-    #     out_line.append(groupator(in_line, 10))
-    # print(out_line)
+    with open('data.csv', 'r') as file:
+        all_data = csv.reader(file, delimiter=';')
+        for row in all_data:
+            print(row)
+            ZN = row.pop(0)
+            FN = row.pop(0)
+
