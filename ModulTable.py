@@ -8,15 +8,16 @@ markers = {'ÐÅÖÅÏÖ²ß', 'ÊAÔÅ', 'ÏÒ', 'KFC', 'ÒÐÖ', '²Ä', 'ÔÎÏ', 'ÒÎÂ', 'ÏÓÍÊÒ', 
 def size(factory_number: str) -> int:
     """returns the maximum number of characters in the check cap"""
     model_rro = factory_number[2:4] if (factory_number[:2] == '40' or factory_number[:2] == '80') else factory_number[
-                                                                                                       4:6]
+                                                                                                     4:6]
     if model_rro == "23":
-        return 36
+        char_limit = 36
     elif model_rro in ["22", "10", "21"]:
-        return 42
+        char_limit = 42
     elif model_rro in ["01", "06", "11", "12", "13", "16", "17"]:
-        return 32
+        char_limit = 32
     else:
-        return 40
+        char_limit = 40
+    return char_limit
 
 
 def check_markers(check: str) -> bool:

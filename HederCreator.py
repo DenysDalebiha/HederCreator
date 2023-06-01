@@ -55,7 +55,6 @@ if __name__ == "__main__":
     with open(r"data.csv", "r") as readTable:
         with open(r"OutData.txt", "w") as writeTable:
             for data in readTable:
-                print("data in file")
                 create_script(Cap.str_2_list(data))
                 writeTable.write('%Else\n%EndIf\n\n')
 
