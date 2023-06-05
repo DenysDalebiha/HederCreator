@@ -46,7 +46,7 @@ def str_spliter(line: str) -> list:
     return split_str
 
 
-def header_line(line, limit=32) -> str:
+def header_line(line,  limit=32, left=False) -> str:
     """return one element of header
     """
     if line:
@@ -61,7 +61,7 @@ def header_line(line, limit=32) -> str:
             out += line.pop(0)
             if len(line) == 0:
                 break
-        return out.center(limit).rstrip()
+        return out.strip() if left else out.center(limit).rstrip()
     else:
         logging.error(f'{datetime.now().isoformat()} Empty line')
 
@@ -77,7 +77,10 @@ def create_script(line, file, mode, ip=False, offset: int = 0):
         ip_address, gate = None, None
     idd = line.pop(0) if mode == 'fop' else None
     while line:
-        header.append(header_line(line, size(factory_number)))
+        if mode == 'metro':
+            header.append(header_line(line, left=True, limit=size(factory_number)))
+        else:
+            header.append(header_line(line, size(factory_number)))
     count = int(offset) if offset else 0
     header_to_file(file, factory_number, fiscal_number, header, ip_address, gate,
                    idd, mode, count)
