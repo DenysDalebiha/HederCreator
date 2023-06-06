@@ -69,6 +69,7 @@ def create_script(line, file, mode, ip=False, offset: int = 0):
     header = []
     factory_number = line.pop(0).replace(" ", "").replace("AT", "ÀÒ").replace("CÏ", "ÑÏ")
     fiscal_number = line.pop(0)
+    limit = size(factory_number)
     if ip:
         ip_address = line.pop(0)
         gate = line.pop(0)
@@ -77,9 +78,9 @@ def create_script(line, file, mode, ip=False, offset: int = 0):
     idd = line.pop(0) if mode == 'fop' else None
     while line:
         if mode == 'metro':
-            header.append(header_line(line, left=True, limit=size(factory_number)))
+            header.append(header_line(line, limit, left=True))
         else:
-            header.append(header_line(line, size(factory_number)))
+            header.append(header_line(line, limit))
     count = int(offset) if offset else 0
     header_to_file(file, factory_number, fiscal_number, header, ip_address, gate,
                    idd, mode, count)
