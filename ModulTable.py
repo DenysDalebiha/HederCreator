@@ -52,15 +52,14 @@ def header_line(line,  limit=32, left=False) -> str:
     if line:
         if len(line[0]) > limit:
             line[0:0] = str_spliter(line.pop(0))
-        if len(line) == 1:
-            return line
         out = line.pop(0)
         if check_markers(out):
             out = out.center(limit)
-        while len(out) + len(line[0]) <= limit:
-            out += line.pop(0)
-            if len(line) == 0:
-                break
+        if line:
+            while len(out) + len(line[0]) <= limit:
+                out += line.pop(0)
+                if len(line) == 0:
+                    break
         return out.strip() if left else out.center(limit).rstrip()
     else:
         logging.error(f'{datetime.now().isoformat()} Empty line')
