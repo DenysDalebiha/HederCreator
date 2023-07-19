@@ -2,9 +2,10 @@
 import logging
 from datetime import datetime
 
-logging.basicConfig(level=logging.ERROR, filename='log.log', filemode='a')
+logging.basicConfig(level=logging.INFO, filename='header.log', filemode='a')
 
-markers = {'ÐÅÖÅÏÖ²ß', 'ÊAÔÅ', 'ÏÒ', 'KFC', 'ÒÐÖ', '²Ä', 'ÔÎÏ', 'ÒÎÂ', 'ÏÓÍÊÒ', 'ÏÍÔÏ', 'ÎÔ²Ñ', 'ÑÊËÀÄ', 'ØÂÅÉÍÀ', 'ÁÀÐ',
+markers = {'ÐÅÖÅÏÖ²ß', 'ÊAÔÅ', 'ÏÒ', 'KFC', 'ÒÐÖ', '²Ä', 'ÔÎÏ', 'ÒÎÂ', 'ÏÓÍÊÒ', 'ÏÍÔÏ', 'ÎÔ²Ñ', 'ÑÊËÀÄ', 'ØÂÅÉÍÀ',
+           'ÁÀÐ',
            'ÀÂÒÎÌÈÉÊÀ', 'ÃËÎÁÓÑ', 'ÀÐÊÀÄ²ß', 'ÏÀÐÊÓÂÀÍÍß', 'ÞÐÈÄÈ×ÍÀ ÀÄÐÅÑÀ', 'ÊÐÀÌÍÈÖß', 'ªÄÐÏÎÓ', 'ÅÄÐÏÎÓ', 'ÌÀÃÀÇÈÍ',
            'ÌÀÃ-Í', 'Â²ÄÄ²ËÅÍÍß', 'ÂÈ¯ÇÍÀ', 'ÑÀËÎÍ', 'ÊÎÌÏËÅÊÑ', 'ÖÅÍÒÐ', 'ÊË²Í²ÊÀ', 'ÊÀÑÀ', 'ªÄÐÏÎÓ', 'ÑÓÏÅÐÌÀÐÊÅÒ',
            'Ã²ÏÅÐÌÀÐÊÅÒ', 'ÑÊËÀÄ-ÒÅÐÌ²ÍÀË', 'ÀÂÒÎÑÀËÎÍ', '×ÅÐÐ²', 'ÇÀÊÓÑÎ×ÍÀ', 'ÑÅÐÂ²ÑÍÈÉ', 'ÓÊÐÏÎØÒÀ', 'ÐÅÑÒÎÐÀÍ'}
@@ -50,7 +51,7 @@ def str_replace(str_: str) -> str:
     return str_.replace('«', '"').replace('»', '"').replace('’', '\'').replace('\n', '')
 
 
-def header_line(line,  limit=32, left=False) -> str:
+def header_line(line, limit=32, left=False) -> str:
     """return one element of header"""
     if line:
         if len(line[0]) > limit:
@@ -87,6 +88,8 @@ def create_script(line, file, mode, ip=False, offset: int = 0):
     count = int(offset) if offset else 0
     header_to_file(file, factory_number, fiscal_number, header, ip_address, gate,
                    idd, mode, count)
+    logging.info(
+        f'{datetime.now().isoformat()}, {factory_number}, {fiscal_number}, {header}, {ip_address}, {gate}, {idd}, {mode}, {count}')
 
 
 def header_to_file(out_file, factory_number: str, fiscal_number: str, header: list, ip_address, gate,
@@ -108,4 +111,3 @@ def header_to_file(out_file, factory_number: str, fiscal_number: str, header: li
     for index, item in enumerate(header):
         out_file.write(f'22000000;{index + offset};{item};0;\n')
     out_file.write('%Else\n%EndIf\n\n')
-    logging.info(f'{datetime.now().isoformat()} {header} write to file')

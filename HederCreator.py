@@ -1,11 +1,7 @@
 # coding: windows-1251
 import argparse
 import csv
-import logging
 import ModulTable as Header
-
-logging.basicConfig(level=logging.INFO, filename='log.log', filemode='a')
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
