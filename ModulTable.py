@@ -5,10 +5,10 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, filename='header.log', filemode='a')
 
 markers = {'ĞÅÖÅÏÖ²ß', 'ÊAÔÅ', 'ÏÒ', 'KFC', 'ÒĞÖ', '²Ä', 'ÔÎÏ', 'ÒÎÂ', 'ÏÓÍÊÒ', 'ÏÍÔÏ', 'ÎÔ²Ñ', 'ÑÊËÀÄ', 'ØÂÅÉÍÀ',
-           'ÁÀĞ',
-           'ÀÂÒÎÌÈÉÊÀ', 'ÃËÎÁÓÑ', 'ÀĞÊÀÄ²ß', 'ÏÀĞÊÓÂÀÍÍß', 'ŞĞÈÄÈ×ÍÀ ÀÄĞÅÑÀ', 'ÊĞÀÌÍÈÖß', 'ªÄĞÏÎÓ', 'ÅÄĞÏÎÓ', 'ÌÀÃÀÇÈÍ',
-           'ÌÀÃ-Í', 'Â²ÄÄ²ËÅÍÍß', 'ÂÈ¯ÇÍÀ', 'ÑÀËÎÍ', 'ÊÎÌÏËÅÊÑ', 'ÖÅÍÒĞ', 'ÊË²Í²ÊÀ', 'ÊÀÑÀ', 'ªÄĞÏÎÓ', 'ÑÓÏÅĞÌÀĞÊÅÒ',
-           'Ã²ÏÅĞÌÀĞÊÅÒ', 'ÑÊËÀÄ-ÒÅĞÌ²ÍÀË', 'ÀÂÒÎÑÀËÎÍ', '×ÅĞĞ²', 'ÇÀÊÓÑÎ×ÍÀ', 'ÑÅĞÂ²ÑÍÈÉ', 'ÓÊĞÏÎØÒÀ', 'ĞÅÑÒÎĞÀÍ'}
+           'ÁÀĞ', 'ÀÂÒÎÌÈÉÊÀ', 'ÃËÎÁÓÑ', 'ÀĞÊÀÄ²ß', 'ÏÀĞÊÓÂÀÍÍß', 'ŞĞÈÄÈ×ÍÀ ÀÄĞÅÑÀ', 'ÊĞÀÌÍÈÖß', 'ªÄĞÏÎÓ', 'ÅÄĞÏÎÓ',
+           'ÌÀÃÀÇÈÍ', 'ÌÀÃ-Í', 'ÊÀÔÅÒÅĞ²É', 'Â²ÄÄ²ËÅÍÍß', 'ÂÈ¯ÇÍÀ', 'ÑÀËÎÍ', 'ÊÎÌÏËÅÊÑ', 'ÖÅÍÒĞ', 'ÊË²Í²ÊÀ', 'ÊÀÑÀ',
+           'ªÄĞÏÎÓ', 'ÑÓÏÅĞÌÀĞÊÅÒ', 'Ã²ÏÅĞÌÀĞÊÅÒ', 'ÑÊËÀÄ-ÒÅĞÌ²ÍÀË', 'ÀÂÒÎÑÀËÎÍ', '×ÅĞĞ²', 'ÇÀÊÓÑÎ×ÍÀ', 'ÑÅĞÂ²ÑÍÈÉ',
+           'ÓÊĞÏÎØÒÀ', 'ĞÅÑÒÎĞÀÍ', 'ÏÍ411350026567'}
 
 
 def size(factory_number: str) -> int:
@@ -27,8 +27,12 @@ def size(factory_number: str) -> int:
     return char_limit
 
 
-def check_markers(check: str) -> bool:
-    return bool(markers.intersection(set(check.upper().replace('"', '').split())))
+def check_markers(check: str, size: int = 32) -> bool:
+    if markers.intersection(set(check.upper().replace('"', '').replace('-', ' ').split())):
+        return check.center(size)
+    else:
+        return check
+
 
 
 def str_spliter(line: str) -> list:
@@ -54,16 +58,17 @@ def str_replace(str_: str) -> str:
 def header_line(line, limit=32, left=False) -> str:
     """return one element of header"""
     if line:
+        line[0] = str_replace(line[0])
         if len(line[0]) > limit:
-            line[0:0] = str_spliter(str_replace(line.pop(0)))
-        out = str_replace(line.pop(0))
-        if check_markers(out):
-            out = out.center(limit)
+            line[0:0] = str_spliter(line.pop(0).lstrip())
+        out = check_markers(line.pop(0), limit)
         if line:
+            line[0] = check_markers(line[0])
             while len(out) + len(line[0]) <= limit:
                 out += str_replace(line.pop(0))
                 if len(line) == 0:
                     break
+                line[0] = check_markers(line[0])
         return out.strip() if left else out.center(limit).rstrip()
     else:
         logging.error(f'{datetime.now().isoformat()} Empty line')
