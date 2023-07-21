@@ -27,12 +27,11 @@ def size(factory_number: str) -> int:
     return char_limit
 
 
-def check_markers(check: str, size: int = 32) -> bool:
+def check_markers(check: str, size_of_header: int = 32) -> str:
     if markers.intersection(set(check.upper().replace('"', '').replace('-', ' ').split())):
-        return check.center(size)
+        return check.center(size_of_header)
     else:
         return check
-
 
 
 def str_spliter(line: str) -> list:
@@ -93,8 +92,8 @@ def create_script(line, file, mode, ip=False, offset: int = 0):
     count = int(offset) if offset else 0
     header_to_file(file, factory_number, fiscal_number, header, ip_address, gate,
                    idd, mode, count)
-    logging.info(
-        f'{datetime.now().isoformat()}, {factory_number}, {fiscal_number}, {header}, {ip_address}, {gate}, {idd}, {mode}, {count}')
+    logging.info(f'{datetime.now().isoformat()}, {factory_number}, {fiscal_number}, {header}, {ip_address}, {gate}, '
+                 f'{idd}, {mode}, {count}')
 
 
 def header_to_file(out_file, factory_number: str, fiscal_number: str, header: list, ip_address, gate,
