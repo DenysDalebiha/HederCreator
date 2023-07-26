@@ -5,7 +5,7 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, filename='header.log', filemode='a')
 
 markers = {'ĞÅÖÅÏÖ²ß', 'ÊAÔÅ', 'ÏÒ', 'KFC', 'ÒĞÖ', '²Ä', 'ÔÎÏ', 'ÒÎÂ', 'ÏÓÍÊÒ', 'ÏÍÔÏ', 'ÎÔ²Ñ', 'ÑÊËÀÄ', 'ØÂÅÉÍÀ',
-           'ÁÀĞ', 'ÀÂÒÎÌÈÉÊÀ', 'ÃËÎÁÓÑ', 'ÀĞÊÀÄ²ß', 'ÏÀĞÊÓÂÀÍÍß', 'ŞĞÈÄÈ×ÍÀ ÀÄĞÅÑÀ', 'ÊĞÀÌÍÈÖß', 'ªÄĞÏÎÓ', 'ÅÄĞÏÎÓ',
+           'ÁÀĞ', 'ÀÂÒÎÌÈÉÊÀ', 'ÃËÎÁÓÑ', 'ÀĞÊÀÄ²ß', 'ÏÀĞÊÓÂÀÍÍß', 'ŞĞÈÄÈ×ÍÀ', 'ÀÄĞÅÑÀ', 'ÊĞÀÌÍÈÖß', 'ªÄĞÏÎÓ', 'ÅÄĞÏÎÓ',
            'ÌÀÃÀÇÈÍ', 'ÌÀÃ-Í', 'ÊÀÔÅÒÅĞ²É', 'Â²ÄÄ²ËÅÍÍß', 'ÂÈ¯ÇÍÀ', 'ÑÀËÎÍ', 'ÊÎÌÏËÅÊÑ', 'ÖÅÍÒĞ', 'ÊË²Í²ÊÀ', 'ÊÀÑÀ',
            'ªÄĞÏÎÓ', 'ÑÓÏÅĞÌÀĞÊÅÒ', 'Ã²ÏÅĞÌÀĞÊÅÒ', 'ÑÊËÀÄ-ÒÅĞÌ²ÍÀË', 'ÀÂÒÎÑÀËÎÍ', '×ÅĞĞ²', 'ÇÀÊÓÑÎ×ÍÀ', 'ÑÅĞÂ²ÑÍÈÉ',
            'ÓÊĞÏÎØÒÀ', 'ĞÅÑÒÎĞÀÍ', 'ÏÍ411350026567'}
@@ -41,7 +41,7 @@ def str_spliter(line: str) -> list:
     >>>str_spliter('ì. Êè¿â, Øåâ÷åíê³âñüêèé ğ-îí, Ïğîñïåêò Ïåğåìîãè, áóä. 32')
     ['ì. Êè¿â,', ' Øåâ÷åíê³âñüêèé ğ-îí,', ' Ïğîñïåêò Ïåğåìîãè,', ' áóä. 32']
     """
-    split_str = line.replace(',', ',^').split('^')
+    split_str = line.replace(', ', ',^ ').split('^')
     if len(split_str) == 1:
         split_str = line.replace(' ', ' ^').split('^')
         if len(split_str) == 1:
@@ -56,22 +56,26 @@ def str_replace(str_: str) -> str:
 
 def header_line(line, limit=32, left=False) -> str:
     """return one element of header"""
-    if line:
+    out = ''
+    while len(out) < limit:
         line[0] = str_replace(line[0])
         if len(line[0]) > limit:
             line[0:0] = str_spliter(line.pop(0).lstrip())
-        out = check_markers(line.pop(0), limit)
-        if line:
-            line[0] = check_markers(line[0])
-            while len(out) + len(line[0]) <= limit:
-                out += str_replace(line.pop(0))
-                if len(line) == 0:
-                    break
-                line[0] = check_markers(line[0])
-        return out.strip() if left else out.center(limit).rstrip()
-    else:
-        logging.error(f'{datetime.now().isoformat()} Empty line')
-
+        out += check_markers(line.pop(0), limit)
+        if len(line) == 0:
+            return out.strip() if left else out.center(limit).rstrip()
+        if len(line[0]) > limit:
+            line[0:0] = str_spliter(line.pop(0).lstrip())
+        line[0] = check_markers(line[0], limit)
+        if len(out) == limit:
+            return out.strip() if left else out.center(limit).rstrip()
+        elif line and (len(out) + len(line[0]) <= limit):
+            out += str_replace(line.pop(0))
+        else:
+            return out.strip() if left else out.center(limit).rstrip()
+        if len(line) == 0:
+            return out.strip() if left else out.center(limit).rstrip()
+    return out.strip() if left else out.center(limit).rstrip()
 
 def create_script(line, file, mode, ip=False, offset: int = 0):
     header = []
