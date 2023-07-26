@@ -61,7 +61,8 @@ def header_line(line, limit=32, left=False) -> str:
         line[0] = str_replace(line[0])
         if len(line[0]) > limit:
             line[0:0] = str_spliter(line.pop(0).lstrip())
-        out += check_markers(line.pop(0), limit)
+        if line and (len(out) + len(line[0]) <= limit):
+            out += check_markers(line.pop(0), limit)
         if len(line) == 0:
             return out.strip() if left else out.center(limit).rstrip()
         if len(line[0]) > limit:
