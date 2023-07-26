@@ -43,9 +43,12 @@ def str_spliter(line: str) -> list:
     """
     split_str = line.replace(', ', ',^ ').split('^')
     if len(split_str) == 1:
-        split_str = line.replace(' ', ' ^').split('^')
+        split_str = line.replace(',', ' ^').split('^')
         if len(split_str) == 1:
-            logging.critical(f'{datetime.now().isoformat()} unsplittable string')
+            split_str = line.replace(' ', ' ^').split('^')
+            if len(split_str) == 1:
+                logging.critical(f'{datetime.now().isoformat()} unsplittable string')
+                return split_str
     logging.debug(f'{datetime.now().isoformat()}line {line} split to \n{split_str}')
     return split_str
 
