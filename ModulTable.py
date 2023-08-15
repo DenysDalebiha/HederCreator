@@ -8,7 +8,7 @@ markers = {'–≈÷≈œ÷≤ﬂ', ' A‘≈', 'œ“', 'KFC', '“–÷', '≤ƒ', '‘Œœ', '“Œ¬', 'œ”Õ “', 
            '¡¿–', '¿¬“ŒÃ»… ¿', '√ÀŒ¡”—', '¿– ¿ƒ≤ﬂ', 'œ¿– ”¬¿ÕÕﬂ', 'ﬁ–»ƒ»◊Õ¿', '¿ƒ–≈—¿', ' –¿ÃÕ»÷ﬂ', '™ƒ–œŒ”', '≈ƒ–œŒ”',
            'Ã¿√¿«»Õ', 'Ã¿√-Õ', ' ¿‘≈“≈–≤…', '¬≤ƒƒ≤À≈ÕÕﬂ', '¬»Ø«Õ¿', '—¿ÀŒÕ', ' ŒÃœÀ≈ —', '÷≈Õ“–', ' À≤Õ≤ ¿', ' ¿—¿',
            '™ƒ–œŒ”', '—”œ≈–Ã¿– ≈“', '√≤œ≈–Ã¿– ≈“', '— À¿ƒ-“≈–Ã≤Õ¿À', '¿¬“Œ—¿ÀŒÕ', '◊≈––≤', '«¿ ”—Œ◊Õ¿', '—≈–¬≤—Õ»…',
-           '” –œŒÿ“¿', '–≈—“Œ–¿Õ', 'œÕ411350026567'}
+           '” –œŒÿ“¿', '–≈—“Œ–¿Õ', 'œÕ411350026567', 'VIVAT'}
 
 
 def size(factory_number: str) -> int:
@@ -82,6 +82,8 @@ def header_line(line, limit=32, left=False) -> str:
     return out.strip() if left else out.center(limit).rstrip()
 
 def create_script(line, file, mode, ip=False, offset: int = 0):
+    while len(line[-1]) == 0:
+        line.pop(-1)
     header = []
     factory_number = line.pop(0).replace(" ", "").replace("AT", "¿“").replace("Cœ", "—œ")
     fiscal_number = line.pop(0)
