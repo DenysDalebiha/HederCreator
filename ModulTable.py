@@ -5,10 +5,10 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, filename='header.log', filemode='a')
 
 markers = {'ĞÅÖÅÏÖ²ß', 'ÊAÔÅ', 'ÏÒ', 'KFC', 'ÒĞÖ', '²Ä', 'ÔÎÏ', 'ÒÎÂ', 'ÏÓÍÊÒ', 'ÏÍÔÏ', 'ÎÔ²Ñ', 'ÑÊËÀÄ', 'ØÂÅÉÍÀ',
-           'ÁÀĞ', 'ÀÂÒÎÌÈÉÊÀ', 'ÃËÎÁÓÑ', 'ÀĞÊÀÄ²ß', 'ÏÀĞÊÓÂÀÍÍß', 'ŞĞÈÄÈ×ÍÀ', 'ÀÄĞÅÑÀ', 'ÊĞÀÌÍÈÖß', 'ªÄĞÏÎÓ', 'ÅÄĞÏÎÓ',
-           'ÌÀÃÀÇÈÍ', 'ÌÀÃ-Í', 'ÊÀÔÅÒÅĞ²É', 'Â²ÄÄ²ËÅÍÍß', 'ÂÈ¯ÇÍÀ', 'ÑÀËÎÍ', 'ÊÎÌÏËÅÊÑ', 'ÖÅÍÒĞ', 'ÊË²Í²ÊÀ', 'ÊÀÑÀ',
-           'ªÄĞÏÎÓ', 'ÑÓÏÅĞÌÀĞÊÅÒ', 'Ã²ÏÅĞÌÀĞÊÅÒ', 'ÑÊËÀÄ-ÒÅĞÌ²ÍÀË', 'ÀÂÒÎÑÀËÎÍ', '×ÅĞĞ²', 'ÇÀÊÓÑÎ×ÍÀ', 'ÑÅĞÂ²ÑÍÈÉ',
-           'ÓÊĞÏÎØÒÀ', 'ĞÅÑÒÎĞÀÍ', 'ÏÍ411350026567', 'VIVAT'}
+           'ÁÀĞ', 'ÀÂÒÎÌÈÉÊÀ', 'ÃËÎÁÓÑ', 'ÀĞÊÀÄ²ß', 'ÏÀĞÊÓÂÀÍÍß', 'ŞĞÈÄÈ×ÍÀ', 'ÀÄĞÅÑÀ', 'ÊĞÀÌÍÈÖß', 'ÊË²Í²ÊÀ', 'ÊÀÑÀ',
+           'ªÄĞÏÎÓ', 'ÅÄĞÏÎÓ', 'ÌÀÃÀÇÈÍ', 'ÌÀÃ-Í', 'ÊÀÔÅÒÅĞ²É', 'Â²ÄÄ²ËÅÍÍß', 'ÂÈ¯ÇÍÀ', 'ÑÀËÎÍ', 'ÊÎÌÏËÅÊÑ', 
+           'ÑÓÏÅĞÌÀĞÊÅÒ', 'Ã²ÏÅĞÌÀĞÊÅÒ', 'ÑÊËÀÄ-ÒÅĞÌ²ÍÀË', 'ÀÂÒÎÑÀËÎÍ', '×ÅĞĞ²', 'ÇÀÊÓÑÎ×ÍÀ', 'ÑÅĞÂ²ÑÍÈÉ', 'ÖÅÍÒĞ', 
+           'ÓÊĞÏÎØÒÀ', 'ĞÅÑÒÎĞÀÍ', 'ÏÍ411350026567', 'VIVAT', 'ÇÀÊËÀÄ', 'ÒÅË.', 'WWW'}
 
 
 def size(factory_number: str) -> int:
@@ -28,7 +28,7 @@ def size(factory_number: str) -> int:
 
 
 def check_markers(check: str, size_of_header: int = 32) -> str:
-    if markers.intersection(set(check.upper().replace('"', '').replace('-', ' ').split())):
+    if markers.intersection(set(check.upper().replace('"', '').replace('-', ' ').replace('(', ' ').replace('.', ' ').split())):
         return check.center(size_of_header)
     else:
         return check
@@ -61,7 +61,7 @@ def header_line(line, limit=32, left=False) -> str:
     """return one element of header"""
     out = ''
     while len(out) < limit:
-        line[0] = str_replace(line[0])
+        line[0] = str_replace(check_markers(line[0]))
         if len(line[0]) > limit:
             line[0:0] = str_spliter(line.pop(0).lstrip())
         if line and (len(out) + len(line[0]) <= limit):
